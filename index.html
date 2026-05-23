@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Felinatic — App Android para cuidar colonias felinas. Gestión de gatos, vacunas, peso, veterinarios y mucho más.">
+<meta name="theme-color" content="#f5b572">
+<meta property="og:title" content="Felinatic">
+<meta property="og:description" content="App Android para cuidar colonias felinas.">
+<meta property="og:url" content="https://felinatic.app">
+<meta property="og:type" content="website">
+<title>Felinatic — Cuida de tu colonia felina</title>
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --surface: #ffffff;
+    --primary: #f5b572;
+    --primary-dark: #d68f4a;
+    --text: #2a2622;
+    --text-soft: #6b5d52;
+    --border: #e8dccb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+  }
+  .container {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+  }
+  .logo-mark {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--surface);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(245, 181, 114, 0.3);
+  }
+  h1 {
+    font-size: clamp(2.25rem, 6vw, 3.25rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    margin-bottom: 2rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 1rem;
+    text-align: left;
+  }
+  .card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-dark);
+  }
+  .card p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+  }
+  .contact {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: var(--text-soft);
+  }
+  .contact a {
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .contact a:hover { text-decoration: underline; }
+  footer {
+    margin-top: auto;
+    padding-top: 3rem;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-mark" aria-hidden="true">F</div>
+    <h1>Felinatic</h1>
+    <p class="tagline">App Android para cuidar de tu colonia felina.</p>
+
+    <div class="card">
+      <h2>Próximamente</h2>
+      <p>Estamos preparando el lanzamiento en Google Play. Mientras tanto, si tienes preguntas o quieres recibir novedades, escríbenos.</p>
+    </div>
+
+    <p class="contact">
+      Contacto: <a href="mailto:hola@felinatic.app">hola@felinatic.app</a>
+    </p>
+  </div>
+
+  <footer>
+    &copy; 2026 Felinatic
+  </footer>
+</body>
+</html>
