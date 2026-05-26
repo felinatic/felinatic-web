@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Política de privacidad de Felinatic. La app no recoge datos personales. Todo se guarda localmente en tu dispositivo. Internet es opt-in.">
+<meta name="theme-color" content="#E48A6F">
+<meta name="author" content="Felinatic">
+<meta name="robots" content="index,follow">
+
+<title>Política de privacidad — Felinatic</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<style>
+  :root {
+    --bg:            #FFF8F1;
+    --bg-banded:     #FFEFE0;
+    --surface:       #FFFFFF;
+    --surface-soft:  #FFFAF5;
+    --primary:       #E48A6F;
+    --primary-dark:  #C76F55;
+    --primary-soft:  #FBE2D7;
+    --secondary:     #9F86C0;
+    --secondary-soft:#E6DBF0;
+    --accent-pink:   #FFB3C1;
+    --text:          #3E3A37;
+    --text-soft:     #75695F;
+    --border:        #EBE0D2;
+    --shadow-sm:     0 2px 6px rgba(196, 111, 85, 0.08);
+    --shadow-md:     0 8px 24px rgba(196, 111, 85, 0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--primary-dark); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+
+  /* Patrón sutil de patitas */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 12% 14%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 84% 26%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 38% 78%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 68% 62%, var(--accent-pink) 1.5px, transparent 2px);
+    background-size: 320px 280px;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* Nav superior simplificada */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 248, 241, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .top-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.25rem;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--primary-dark);
+  }
+  .nav-logo img { height: 30px; width: auto; }
+  .back-link {
+    font-size: 0.92rem;
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+  .back-link:hover { color: var(--primary-dark); text-decoration: none; }
+
+  /* Cabecera del documento */
+  .doc-header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .doc-header .eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 0.6rem;
+  }
+  .doc-header h1 {
+    font-size: clamp(1.7rem, 4.5vw, 2.3rem);
+    font-weight: 700;
+    margin: 0.3rem 0 0.5rem;
+    line-height: 1.2;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .doc-header .meta {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+  }
+
+  /* TL;DR destacado al principio */
+  .tldr {
+    background: var(--surface);
+    border: 1.5px solid var(--secondary);
+    border-radius: 18px;
+    padding: 1.5rem 1.5rem 1.25rem;
+    margin: 1rem 0 2.5rem;
+    box-shadow: var(--shadow-md);
+  }
+  .tldr-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.85rem;
+  }
+  .tldr-head .badge-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--secondary-soft);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .tldr-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .tldr ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .tldr ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.96rem;
+    color: var(--text-soft);
+  }
+  .tldr ul li .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--secondary);
+    margin-top: 0.7rem;
+    flex-shrink: 0;
+  }
+  .tldr ul li b { color: var(--text); font-weight: 700; }
+
+  /* Bloques de contenido */
+  article.policy {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  article.policy h2 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  article.policy h3 {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+  }
+  article.policy p {
+    margin: 0.5rem 0;
+    color: var(--text-soft);
+  }
+  article.policy ul {
+    padding-left: 1.2rem;
+    margin: 0.5rem 0 1rem;
+    color: var(--text-soft);
+  }
+  article.policy ul li { margin-bottom: 0.4rem; }
+  article.policy b, article.policy strong { color: var(--text); font-weight: 700; }
+  article.policy code {
+    background: var(--bg-banded);
+    color: var(--primary-dark);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.92em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  article.policy .table-like {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 0.75rem 0;
+  }
+  @media (min-width: 560px) {
+    article.policy .table-like { grid-template-columns: 200px 1fr; }
+  }
+  article.policy .table-like .label {
+    font-weight: 700;
+    color: var(--text);
+    background: var(--bg-banded);
+    padding: 0.55rem 0.85rem;
+    border-radius: 8px;
+    align-self: start;
+  }
+  article.policy .table-like .value {
+    color: var(--text-soft);
+    align-self: start;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--text);
+    color: #E8E1DA;
+    padding: 2.5rem 0 1.5rem;
+    font-size: 0.92rem;
+    margin-top: 3rem;
+  }
+  footer .container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+    text-align: center;
+  }
+  @media (min-width: 720px) {
+    footer .container {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+  footer a { color: #FBE2D7; }
+  footer .footer-links {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  footer .copyright {
+    color: #B8AEA4;
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+  <nav class="top-nav" aria-label="Principal">
+    <div class="top-nav-inner">
+      <a class="nav-logo" href="/" aria-label="Felinatic - Inicio">
+        <img src="logo.png" alt="Felinatic">
+      </a>
+      <a class="back-link" href="/">&larr; Volver al inicio</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section>
+      <div class="container">
+        <div class="doc-header">
+          <span class="eyebrow">Documento legal</span>
+          <h1>Política de privacidad</h1>
+          <div class="meta">Última actualización: 25 de mayo de 2026 · Versión 1.0</div>
+        </div>
+
+        <!-- TL;DR ─────────────────────────────────────────────────── -->
+        <div class="tldr">
+          <div class="tldr-head">
+            <div class="badge-icon">🔒</div>
+            <h2>En tres líneas</h2>
+          </div>
+          <ul>
+            <li>
+              <span class="dot"></span>
+              <span><b>Felinatic NO recoge datos personales.</b> Toda tu
+                información (gatos, fotos, vacunas, peso, notas) vive en
+                la base de datos local de tu móvil.</span>
+            </li>
+            <li>
+              <span class="dot"></span>
+              <span><b>Sin cuentas, sin servidores propios con tus datos,
+                sin analíticas, sin anuncios.</b> Ni siquiera sabemos
+                cuántas personas usan la app.</span>
+            </li>
+            <li>
+              <span class="dot"></span>
+              <span><b>El acceso a internet es opt-in.</b> Por defecto
+                la app funciona 100% offline. Solo se conecta a internet
+                cuando lo activas explícitamente, y únicamente para
+                descargar el catálogo de ofertas o consultar un código
+                de barras de pienso.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 1. Responsable ────────────────────────────────────────── -->
+        <article class="policy">
+          <h2>1. Quién es el responsable</h2>
+          <p>
+            Felinatic es una aplicación móvil para Android desarrollada
+            de forma independiente. La aplicación se publica gratuitamente
+            en Google Play y no pertenece a ninguna empresa.
+          </p>
+          <div class="table-like">
+            <div class="label">Aplicación</div>
+            <div class="value">Felinatic (paquete <code>app.felinatic</code>)</div>
+            <div class="label">Sitio web</div>
+            <div class="value"><a href="https://felinatic.app">felinatic.app</a></div>
+            <div class="label">Contacto</div>
+            <div class="value"><a href="mailto:hola@felinatic.app">hola@felinatic.app</a></div>
+          </div>
+        </article>
+
+        <!-- 2. Datos que SÍ se procesan ──────────────────────────── -->
+        <article class="policy">
+          <h2>2. Datos que la app procesa</h2>
+          <p>
+            Felinatic procesa la información que <b>tú introduces en la app</b>:
+            datos de tus gatos (nombre, raza, edad, peso, salud, vacunas,
+            adjuntos veterinarios, notas), fotos que subes a las galerías,
+            piensos y accesorios que catalogas, clínicas veterinarias que
+            registras, eventos del calendario y, opcionalmente, un perfil
+            básico de cuidador por colonia (nombre y teléfono, si los
+            quieres incluir en un cartel de adopción).
+          </p>
+          <p>
+            <b>Toda esta información se guarda exclusivamente en la base
+            de datos local de tu dispositivo Android.</b> No se envía
+            automáticamente a ningún servidor. No se sincroniza en la
+            nube. No la podemos ver ni recuperar nosotros — tampoco si
+            la pides. Es estrictamente tuya, en tu teléfono.
+          </p>
+
+          <h3>2.1 Fotografías</h3>
+          <p>
+            Las fotos que añades (a las fichas de los gatos, a las galerías,
+            a las visitas veterinarias) se guardan como archivos en el
+            almacenamiento privado de la app. Si la fotografía contiene
+            metadatos EXIF con tu geolocalización, esos metadatos se
+            <b>eliminan automáticamente al exportar</b> una colonia para
+            que la ubicación no salga de tu dispositivo.
+          </p>
+
+          <h3>2.2 Exportaciones e importaciones</h3>
+          <p>
+            Si decides exportar una colonia (para hacer un backup o pasarla
+            a otro móvil), Felinatic genera un fichero
+            <code>.felinatic</code> que contiene los datos de esa colonia.
+            <b>Este fichero puede cifrarse con una contraseña que tú eliges</b>,
+            usando cifrado AES estándar. Solo quien conozca la contraseña
+            puede descomprimirlo. El fichero queda en tu dispositivo o en
+            el destino que tú elijas (Google Drive, WhatsApp, correo,
+            tarjeta SD), pero Felinatic no participa en ese envío — lo
+            gestionas con las apps habituales de Android.
+          </p>
+        </article>
+
+        <!-- 3. Datos que NO se recogen ───────────────────────────── -->
+        <article class="policy">
+          <h2>3. Datos que la app NO recoge</h2>
+          <p>Para que quede totalmente claro, esto es lo que Felinatic
+            <b>no</b> hace:</p>
+          <ul>
+            <li>No pedimos registro, email, contraseña ni teléfono para
+              usar la app.</li>
+            <li>No tenemos servidores con datos de usuarios. Ninguna
+              ficha de gato sale de tu dispositivo de forma automática.</li>
+            <li>No hay analítica de uso (ni Firebase Analytics, ni Google
+              Analytics, ni equivalentes). No sabemos qué pantallas
+              visitas ni con qué frecuencia abres la app.</li>
+            <li>No hay crash reporting con telemetría. Si algo falla,
+              falla en silencio en tu móvil — no se nos manda un informe.</li>
+            <li>No hay publicidad. No hay SDKs de terceros (Meta, Google
+              Ads, etc.) integrados.</li>
+            <li>No leemos tu lista de contactos, ni tu agenda del sistema,
+              ni tus llamadas. Felinatic ni siquiera pide esos permisos.</li>
+            <li>No accedemos a tu micrófono, ubicación GPS, sensores
+              corporales ni Bluetooth. Felinatic no pide esos permisos.</li>
+            <li>No vendemos, alquilamos ni cedemos datos a terceros —
+              porque no los tenemos.</li>
+          </ul>
+        </article>
+
+        <!-- 4. Conexiones a internet ─────────────────────────────── -->
+        <article class="policy">
+          <h2>4. Cuándo la app se conecta a internet</h2>
+          <p>
+            Felinatic arranca <b>completamente offline</b>. El acceso a
+            internet está desactivado por defecto y solo se usa cuando
+            tú lo activas explícitamente desde la propia app (Ajustes
+            de la pestaña Ofertas, o al escanear un código de barras
+            que no esté en el catálogo local).
+          </p>
+          <p>
+            Cuando lo activas, son únicamente tres tipos de conexión,
+            todas ellas iniciadas por una acción tuya:
+          </p>
+
+          <h3>4.1 Catálogo de ofertas</h3>
+          <p>
+            Al abrir la sub-pestaña <b>Ofertas</b> con el acceso a
+            internet activado, la app descarga un fichero JSON público
+            desde <a href="https://data.felinatic.app/offers.json"><code>data.felinatic.app/offers.json</code></a>.
+            Este JSON contiene el listado de productos en oferta que
+            curamos manualmente. La descarga no envía ningún dato tuyo:
+            es una petición HTTPS GET estándar, equivalente a abrir esa
+            URL en el navegador. Quedan los registros normales del
+            servidor de GitHub Pages (la dirección IP de tu conexión y
+            la cabecera User-Agent), que no usamos para identificar a
+            ningún usuario.
+          </p>
+
+          <h3>4.2 Consulta de pienso en Open Pet Food Facts</h3>
+          <p>
+            Al escanear el código de barras de un envase de pienso,
+            primero comprobamos un catálogo local empaquetado en la app.
+            Si el código no está, y tú aceptas activar la consulta
+            externa, enviamos <b>únicamente ese código de barras</b>
+            (el EAN/UPC del envase) a la API pública de
+            <a href="https://world.openpetfoodfacts.org">Open Pet Food
+            Facts</a>, un catálogo abierto y colaborativo similar a Open
+            Food Facts. La consulta no incluye ningún identificador del
+            móvil ni datos de la colonia. Open Pet Food Facts opera bajo
+            su propia política de privacidad — consulta
+            <a href="https://world.openpetfoodfacts.org/privacy">su sitio</a>
+            si quieres revisarla.
+          </p>
+
+          <h3>4.3 Enlaces de afiliados a tiendas</h3>
+          <p>
+            Algunas ofertas del catálogo abren enlaces de afiliación con
+            tiendas (Amazon, Tiendanimal, Zooplus, Mercadona...). Cuando
+            tocas una oferta, Android abre el enlace en tu navegador o
+            en la app de la tienda — Felinatic no envía nada, simplemente
+            lanza el enlace. Lo que ocurre a partir de ahí depende de la
+            tienda destino y de tu navegador (cookies, sesión, etc.).
+            Felinatic recibe una pequeña comisión si haces una compra
+            usando esos enlaces. Esta comisión es completamente anónima
+            para nosotros: las tiendas nos liquidan el total sin
+            indicarnos qué usuarios compraron.
+          </p>
+        </article>
+
+        <!-- 5. Permisos del sistema ─────────────────────────────── -->
+        <article class="policy">
+          <h2>5. Permisos del sistema Android</h2>
+          <p>
+            Felinatic declara los permisos mínimos necesarios para
+            funcionar. Cada permiso se solicita en el momento de usarlo,
+            no al instalar:
+          </p>
+          <div class="table-like">
+            <div class="label">Cámara</div>
+            <div class="value">Para escanear códigos de barras del envase
+              de pienso y para hacer fotos de un gato o de un comprobante
+              veterinario. Solo se activa cuando tocas el botón
+              correspondiente.</div>
+            <div class="label">Galería / fotos</div>
+            <div class="value">Para seleccionar fotos existentes de tu
+              móvil (galería del sistema) y añadirlas a la ficha de un
+              gato. Usamos el selector visual de Android, que no nos da
+              acceso a tu galería entera — solo a las fotos que tú
+              eliges.</div>
+            <div class="label">Internet</div>
+            <div class="value">Necesario por sistema para que la app
+              pueda realizar las conexiones descritas en la sección 4
+              cuando tú las activas. La app puede funcionar al 100% sin
+              red.</div>
+            <div class="label">Acceso a ficheros</div>
+            <div class="value">Para importar o exportar ficheros
+              <code>.felinatic</code> con tus colonias. Usa el selector
+              de archivos del sistema; solo accedemos al fichero concreto
+              que selecciones.</div>
+          </div>
+        </article>
+
+        <!-- 6. Personas menores ──────────────────────────────────── -->
+        <article class="policy">
+          <h2>6. Personas menores de edad</h2>
+          <p>
+            Felinatic es apta para todos los públicos. No recoge datos
+            personales de ningún usuario, por lo que tampoco recoge datos
+            de personas menores de edad. Aun así, si eres menor de 14
+            años recomendamos que un padre, madre o tutor te acompañe al
+            instalar la app.
+          </p>
+        </article>
+
+        <!-- 7. Tus derechos ──────────────────────────────────────── -->
+        <article class="policy">
+          <h2>7. Tus derechos sobre tus datos</h2>
+          <p>
+            Como Felinatic no almacena tus datos en ningún servidor,
+            tienes <b>control total</b> sobre ellos:
+          </p>
+          <ul>
+            <li><b>Acceso y rectificación.</b> Puedes ver y editar
+              cualquier dato directamente en la app, en cualquier
+              momento.</li>
+            <li><b>Supresión.</b> Puedes borrar un gato, una colonia
+              entera o desinstalar la app. Desinstalar la app borra toda
+              la base de datos local de Felinatic.</li>
+            <li><b>Portabilidad.</b> La función "Exportar colonia" te
+              devuelve un fichero <code>.felinatic</code> con todos tus
+              datos en formato JSON dentro de un ZIP — abrible y
+              auditable.</li>
+            <li><b>Oposición y limitación.</b> El acceso a internet es
+              opt-in. Si lo desactivas en cualquier momento, Felinatic
+              deja de hacer cualquier conexión externa.</li>
+          </ul>
+          <p>
+            Si quieres ejercer algún derecho adicional contemplado por
+            el RGPD o por la LOPDGDD española respecto a hipotéticos
+            datos que pudiéramos tener (no los tenemos, pero el derecho
+            te asiste igual), escribe a
+            <a href="mailto:hola@felinatic.app">hola@felinatic.app</a>.
+            Te responderemos en un plazo máximo de un mes.
+          </p>
+        </article>
+
+        <!-- 8. Cambios en la política ───────────────────────────── -->
+        <article class="policy">
+          <h2>8. Cambios en esta política</h2>
+          <p>
+            Si en algún momento cambiamos el comportamiento de la app
+            en cuanto a privacidad (por ejemplo, añadir una funcionalidad
+            que conecte a un nuevo servicio externo), actualizaremos
+            este documento y modificaremos la "fecha de última
+            actualización" indicada arriba. Los cambios significativos
+            se anunciarán también dentro de la app cuando proceda.
+          </p>
+          <p>
+            Esta política se publica en
+            <a href="https://felinatic.app/privacy">felinatic.app/privacy</a>
+            y se enlaza desde Google Play y desde los Ajustes de la app.
+          </p>
+        </article>
+
+        <!-- 9. Contacto ──────────────────────────────────────────── -->
+        <article class="policy">
+          <h2>9. Contacto</h2>
+          <p>
+            Cualquier duda sobre esta política o sobre la forma en que
+            Felinatic trata (o no trata) tus datos, escríbenos a:
+          </p>
+          <p style="font-size: 1.1rem; margin-top: 0.5rem;">
+            <a href="mailto:hola@felinatic.app">hola@felinatic.app</a>
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>
+        <div style="font-weight: 800; color: #FFC2A6; margin-bottom: 0.25rem;">
+          Felinatic
+        </div>
+        <div class="copyright">
+          &copy; 2026 Felinatic · Hecho con cariño en España
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="/">Inicio</a>
+        <a href="/#features">Qué hace</a>
+        <a href="/#faq">FAQ</a>
+        <a href="mailto:hola@felinatic.app">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

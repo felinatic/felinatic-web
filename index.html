@@ -3,121 +3,707 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Felinatic — App Android para cuidar colonias felinas. Gestión de gatos, vacunas, peso, veterinarios y mucho más.">
-<meta name="theme-color" content="#f5b572">
-<meta property="og:title" content="Felinatic">
-<meta property="og:description" content="App Android para cuidar colonias felinas.">
+<meta name="description" content="Felinatic — App Android para quien vive con gatos. Ficha por gato, peso, salud, comparador de pienso, calendario y cartel de adopción. Vale para uno, varios o toda una colonia. 100% local, sin cuentas, sin anuncios.">
+<meta name="theme-color" content="#E48A6F">
+<meta name="author" content="Felinatic">
+
+<!-- Open Graph para redes -->
+<meta property="og:title" content="Felinatic — La app para quien vive con gatos">
+<meta property="og:description" content="Toda la información de tus gatos en un solo sitio. Ficha, peso, salud, pienso, calendario y cartel de adopción. 100% local. Sin cuentas. Sin anuncios.">
 <meta property="og:url" content="https://felinatic.app">
 <meta property="og:type" content="website">
-<title>Felinatic — Cuida de tu colonia felina</title>
+<meta property="og:image" content="https://felinatic.app/icon-512.png">
+
+<title>Felinatic — La app para quien vive con gatos</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
 <style>
   :root {
-    --bg: #fdf6ec;
-    --surface: #ffffff;
-    --primary: #f5b572;
-    --primary-dark: #d68f4a;
-    --text: #2a2622;
-    --text-soft: #6b5d52;
-    --border: #e8dccb;
+    /* ── Paleta tomada del tema CREAM (Garfield) de la app + logo ── */
+    --bg:            #FFF8F1;
+    --bg-banded:     #FFEFE0;   /* franjas alternas para secciones */
+    --surface:       #FFFFFF;
+    --surface-soft:  #FFFAF5;
+    --primary:       #E48A6F;   /* naranja Garfield, chipSelected del tema */
+    --primary-dark:  #C76F55;
+    --primary-soft:  #FBE2D7;   /* tinted bg de la card destacada */
+    --secondary:     #9F86C0;   /* violeta del wordmark del logo */
+    --secondary-soft:#E6DBF0;
+    --accent-pink:   #FFB3C1;   /* huellita del logo */
+    --text:          #3E3A37;
+    --text-soft:     #75695F;
+    --border:        #EBE0D2;
+    --shadow-sm:     0 2px 6px rgba(196, 111, 85, 0.08);
+    --shadow-md:     0 8px 24px rgba(196, 111, 85, 0.12);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* ── Reset ligero ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
-    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1.5rem;
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--primary-dark); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Patrón sutil de patitas en el fondo ──────────────────────── */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 12% 14%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 84% 26%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 38% 78%, var(--accent-pink) 1.5px, transparent 2px),
+      radial-gradient(circle at 68% 62%, var(--accent-pink) 1.5px, transparent 2px);
+    background-size: 320px 280px;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: -1;
   }
+
+  /* ── Layout helpers ───────────────────────────────────────────── */
   .container {
-    max-width: 560px;
-    width: 100%;
-    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
   }
-  .logo-mark {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    background: var(--primary);
+  section { padding: 3.5rem 0; }
+  @media (min-width: 768px) { section { padding: 5rem 0; } }
+
+  /* ── Navegación superior ──────────────────────────────────────── */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 248, 241, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+  }
+  .top-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--primary-dark);
+  }
+  .nav-logo img { height: 30px; width: auto; }
+  .nav-links {
+    display: none;
+    gap: 1.4rem;
+    font-size: 0.95rem;
+  }
+  .nav-links a { color: var(--text-soft); font-weight: 500; }
+  .nav-links a:hover { color: var(--primary-dark); text-decoration: none; }
+  @media (min-width: 720px) { .nav-links { display: flex; } }
+
+  /* ── Hero ─────────────────────────────────────────────────────── */
+  .hero {
+    text-align: center;
+    padding: 3.5rem 0 4rem;
+  }
+  .hero-logo {
+    max-width: 380px;
+    margin: 0 auto 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+    font-weight: 700;
+    margin: 0.5rem 0 0.75rem;
+    line-height: 1.2;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .hero p.lead {
+    font-size: 1.1rem;
+    color: var(--text-soft);
+    max-width: 560px;
+    margin: 0 auto 2rem;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--surface);
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 24px rgba(245, 181, 114, 0.3);
+    gap: 0.5rem;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.98rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
-  h1 {
-    font-size: clamp(2.25rem, 6vw, 3.25rem);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+  .btn:hover { transform: translateY(-1px); text-decoration: none; }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
   }
-  .tagline {
-    font-size: 1.15rem;
+  .btn-primary:hover { background: var(--primary-dark); box-shadow: var(--shadow-md); }
+  .btn-soon {
+    background: var(--surface);
+    color: var(--primary-dark);
+    border-color: var(--primary);
+    cursor: default;
+  }
+  .btn-soon:hover { transform: none; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary-dark); }
+
+  /* ── Sección con fondo alternativo ────────────────────────────── */
+  .section-banded {
+    background: var(--bg-banded);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Headers de sección ───────────────────────────────────────── */
+  .section-head {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .section-head h2 {
+    font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+  .section-head .eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin-bottom: 0.6rem;
+  }
+  .section-head p {
+    font-size: 1rem;
     color: var(--text-soft);
-    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: 0.5rem auto 0;
   }
-  .card {
+
+  /* ── Grid de features ─────────────────────────────────────────── */
+  .features-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 600px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .features-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .feature-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 2rem;
-    margin-top: 1rem;
-    text-align: left;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s, box-shadow 0.15s;
   }
-  .card h2 {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    color: var(--primary-dark);
+  .feature-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+    font-size: 1.4rem;
   }
-  .card p {
+  .feature-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .feature-card p {
+    margin: 0;
+    font-size: 0.94rem;
     color: var(--text-soft);
-    font-size: 0.95rem;
+    line-height: 1.55;
   }
-  .contact {
-    margin-top: 2rem;
-    font-size: 0.95rem;
+
+  /* ── Bloque "Privacidad" destacado ────────────────────────────── */
+  .privacy-block {
+    background: var(--surface);
+    border: 1.5px solid var(--secondary);
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+    max-width: 760px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-md);
+  }
+  .privacy-block .privacy-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .privacy-block .privacy-head .badge-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--secondary-soft);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+  }
+  .privacy-block h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .privacy-block .lead-line {
     color: var(--text-soft);
+    margin: 0.25rem 0 1.5rem;
   }
-  .contact a {
-    color: var(--primary-dark);
-    text-decoration: none;
-    font-weight: 600;
+  .privacy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
   }
-  .contact a:hover { text-decoration: underline; }
-  footer {
-    margin-top: auto;
-    padding-top: 3rem;
+  .privacy-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .privacy-list li .check {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+    background: var(--secondary);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
     font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .privacy-list li b { color: var(--text); font-weight: 700; }
+  .privacy-list li span { color: var(--text-soft); font-size: 0.94rem; line-height: 1.5; }
+
+  /* ── FAQ ──────────────────────────────────────────────────────── */
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .faq-list details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    transition: box-shadow 0.15s;
+  }
+  .faq-list details[open] { box-shadow: var(--shadow-sm); }
+  .faq-list summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary::after {
+    content: "+";
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 0.15s;
+  }
+  .faq-list details[open] summary::after { content: "−"; }
+  .faq-list details p {
+    margin: 0.85rem 0 0;
     color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  /* ── Sección contacto ─────────────────────────────────────────── */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .contact-card .email-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────────── */
+  footer {
+    background: var(--text);
+    color: #E8E1DA;
+    padding: 2.5rem 0 1.5rem;
+    font-size: 0.92rem;
+    margin-top: 2rem;
+  }
+  footer .container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  @media (min-width: 720px) {
+    footer .container {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+  footer a { color: #FBE2D7; }
+  footer .footer-links {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  footer .copyright {
+    color: #B8AEA4;
+    font-size: 0.85rem;
   }
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo-mark" aria-hidden="true">F</div>
-    <h1>Felinatic</h1>
-    <p class="tagline">App Android para cuidar de tu colonia felina.</p>
 
-    <div class="card">
-      <h2>Próximamente</h2>
-      <p>Estamos preparando el lanzamiento en Google Play. Mientras tanto, si tienes preguntas o quieres recibir novedades, escríbenos.</p>
+  <!-- ── Navegación superior ───────────────────────────────────── -->
+  <nav class="top-nav" aria-label="Principal">
+    <div class="top-nav-inner">
+      <a class="nav-logo" href="#top" aria-label="Felinatic - Inicio">
+        <img src="logo.png" alt="Felinatic">
+      </a>
+      <div class="nav-links">
+        <a href="#features">Qué hace</a>
+        <a href="#privacy">Privacidad</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contacto</a>
+      </div>
     </div>
+  </nav>
 
-    <p class="contact">
-      Contacto: <a href="mailto:hola@felinatic.app">hola@felinatic.app</a>
-    </p>
-  </div>
+  <main id="top">
 
+    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="container">
+        <img class="hero-logo" src="logo.png" alt="Felinatic — gato naranja sobre la palabra Felinatic">
+        <h1>Cuida tus gatos con cariño y datos.</h1>
+        <p class="lead">
+          Toda la información de tus gatos en un solo sitio. Para quien
+          vive con uno, con varios o cuida una colonia entera: ficha de
+          cada gato, control de peso y salud, comparador de pienso y
+          cartel de adopción si toca encontrar familia.
+        </p>
+        <div class="cta-row">
+          <span class="btn btn-soon">🐾 Próximamente en Google Play</span>
+          <a class="btn btn-ghost" href="#features">Ver qué hace</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Features ──────────────────────────────────────────── -->
+    <section id="features" class="section-banded">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Qué hace Felinatic</span>
+          <h2>Todo lo que necesitas para gestionar tus gatos</h2>
+          <p>Diseñada con la experiencia real de cuidar colonias.
+             Pensada para que abras la app y todo esté donde lo dejaste.</p>
+        </div>
+
+        <div class="features-grid">
+
+          <article class="feature-card">
+            <div class="feature-icon">🐱</div>
+            <h3>Ficha completa por gato</h3>
+            <p>Nombre, edad, raza, sexo, peso histórico con gráfico,
+               estado de salud, vacunas, pruebas, fotos y notas.
+               Todo en una vista clara y editable.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🏘️</div>
+            <h3>Varios grupos o colonias</h3>
+            <p>Gestiona en paralelo tu casa, los gatos del refugio, una
+               colonia urbana — cada grupo con su propio tema, perfil
+               de cuidador y configuración. Saltas entre ellos con un toque.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🥘</div>
+            <h3>Comparador de pienso</h3>
+            <p>Escanea el código de barras del envase, compara composición
+               analítica entre piensos (proteína, grasa, fibra, cenizas)
+               y elige el que mejor encaja con cada gato.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Calendario unificado</h3>
+            <p>Visitas al veterinario, vacunas pendientes, cumpleaños,
+               recordatorios y notas — todo en un único calendario por colonia,
+               sin tener que ir cuadrando agendas.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📄</div>
+            <h3>Cartel de adopción en PDF</h3>
+            <p>Genera un cartel profesional listo para imprimir o
+               compartir por WhatsApp con la foto, datos y descripción
+               del gato. Tu compañero se merece un buen pase.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🩺</div>
+            <h3>Salud y veterinarios</h3>
+            <p>Ficha tus clínicas y medicamentos. Enciclopedia de salud
+               felina con enfermedades comunes, síntomas y señales de
+               alarma para saber cuándo llamar al vet de urgencia.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📷</div>
+            <h3>Galería con cariño</h3>
+            <p>Cada gato tiene su galería de fotos con visor a pantalla
+               completa, zoom, recortador propio y lectura de la fecha
+               del EXIF — así sabes la edad exacta de tu mascota en cada foto.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">💊</div>
+            <h3>Vet y farmacia</h3>
+            <p>Cataloga tus medicamentos con tipo, patología que tratan
+               y zona de aplicación. Botón directo de llamada y mapa
+               para llegar a la clínica.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Una colonia, un tema</h3>
+            <p>Cada colonia tiene su paleta. Garfield, Bombay, Bosque,
+               Sphynx, RusoAzul, Menta... Personalizable para que cada
+               grupo de gatos tenga su personalidad visual.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Privacidad ────────────────────────────────────────── -->
+    <section id="privacy">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Tu colonia, tus datos</span>
+          <h2>Privacidad sin letra pequeña</h2>
+        </div>
+        <div class="privacy-block">
+          <div class="privacy-head">
+            <div class="badge-icon">🔒</div>
+            <div>
+              <h3>100% local, sin cuentas, sin tracking</h3>
+              <p class="lead-line">
+                Felinatic vive en tu móvil. Tus gatos no se suben a
+                ningún servidor.
+              </p>
+            </div>
+          </div>
+          <ul class="privacy-list">
+            <li>
+              <span class="check">✓</span>
+              <span><b>Sin cuentas.</b> No necesitas registrarte, ni
+                email, ni contraseña. Instalas, abres y empiezas.</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span><b>Sin anuncios.</b> Cero tracking publicitario, cero
+                pop-ups, cero terceros que decidan qué ves.</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span><b>Datos solo en tu dispositivo.</b> Toda la información
+                de tus gatos (fotos, vacunas, peso, notas) vive en una base
+                de datos local de Android.</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span><b>Backups cifrados.</b> Si exportas una colonia para
+                pasarla a otro móvil o compartirla con tu vet, el fichero
+                <code>.felinatic</code> se cifra con tu contraseña.</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span><b>EXIF limpio al exportar.</b> Las fotos pierden la
+                geolocalización al salir del dispositivo. No hay forma de
+                saber dónde está tu colonia.</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span><b>Permisos mínimos.</b> Cámara solo cuando la pides
+                tú (escanear pienso, hacer foto). Internet solo cuando
+                lo activas: escanear un pienso o consultar ofertas. Nunca
+                en segundo plano.</span>
+            </li>
+          </ul>
+          <p style="text-align: center; margin: 1.5rem 0 0; font-size: 0.92rem; color: var(--text-soft);">
+            ¿Quieres el texto legal completo?
+            <a href="privacy.html">Lee la política de privacidad &rarr;</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ───────────────────────────────────────────────── -->
+    <section id="faq" class="section-banded">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Preguntas frecuentes</span>
+          <h2>Lo que la gente suele preguntar</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>¿La app es gratuita?</summary>
+            <p>Sí, totalmente. Sin compras dentro de la app, sin
+               versiones "Pro", sin anuncios. La sección de ofertas
+               incluye enlaces de afiliación honesta con algunos retailers,
+               y eso ayuda a sostener el proyecto sin coste para ti.</p>
+          </details>
+          <details>
+            <summary>¿Funciona sin internet?</summary>
+            <p>Sí, la app entera funciona offline. Solo la sub-pestaña
+               de Ofertas se conecta a internet para descargar el catálogo
+               público — el resto (gatos, vacunas, calendario, fotos,
+               comparador) trabaja completamente sin red.</p>
+          </details>
+          <details>
+            <summary>¿Puedo pasar mis datos a otro móvil?</summary>
+            <p>Sí. Desde Ajustes puedes exportar una colonia completa a
+               un fichero <code>.felinatic</code> (zip cifrado con tu
+               contraseña) que contiene todos los gatos, fotos, vacunas
+               e historiales. En el móvil nuevo simplemente lo importas.</p>
+          </details>
+          <details>
+            <summary>¿Para iPhone?</summary>
+            <p>De momento solo Android. La app está optimizada para móviles
+               Android y aprovecha funcionalidades específicas como el
+               escaneo de códigos de barras del envase del pienso. Una
+               versión para iOS está en evaluación para el futuro.</p>
+          </details>
+          <details>
+            <summary>¿Para cuántos gatos sirve?</summary>
+            <p>Para todos los que quieras. Está pensada para escenarios
+               desde un único gato en casa hasta colonias urbanas con
+               decenas de individuos. La función "multi-colonia" te
+               permite separar grupos (p. ej. "casa", "colonia del parque",
+               "rescatados temporales") sin mezclar datos.</p>
+          </details>
+          <details>
+            <summary>¿La información de salud sustituye a un veterinario?</summary>
+            <p>No, en absoluto. La enciclopedia de salud felina y las
+               señales de alarma son herramientas de orientación para
+               que sepas cuándo consultar. La app NO diagnostica ni
+               recomienda tratamientos. Ante cualquier duda, lleva tu
+               gato al veterinario.</p>
+          </details>
+          <details>
+            <summary>¿Quién está detrás de Felinatic?</summary>
+            <p>Un desarrollador independiente y voluntario en colonias
+               felinas. La app nace de una necesidad real propia —
+               llevar ficha de cada gato y no perder datos en hojas
+               sueltas — y se construye con la idea de ofrecérsela
+               gratis a quien la necesite.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contacto ──────────────────────────────────────────── -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Contacto</span>
+          <h2>¿Tienes alguna duda?</h2>
+        </div>
+        <div class="contact-card">
+          <p>Escríbenos a:</p>
+          <a class="email-link" href="mailto:hola@felinatic.app">hola@felinatic.app</a>
+          <p style="font-size: 0.92rem; color: var(--text-soft); margin-top: 1rem;">
+            Sugerencias de funcionalidades, reportes de bugs, o simplemente
+            saludar. Cualquier cosa relacionada con la app es bienvenida.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
   <footer>
-    &copy; 2026 Felinatic
+    <div class="container">
+      <div>
+        <div style="font-weight: 800; color: #FFC2A6; margin-bottom: 0.25rem;">
+          Felinatic
+        </div>
+        <div class="copyright">
+          &copy; 2026 Felinatic · Hecho con cariño en España
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Qué hace</a>
+        <a href="#privacy">Privacidad</a>
+        <a href="privacy.html">Política completa</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hola@felinatic.app">Contacto</a>
+      </div>
+    </div>
   </footer>
+
 </body>
 </html>
