@@ -298,7 +298,7 @@
         <div class="doc-header">
           <span class="eyebrow">Documento legal</span>
           <h1>Política de privacidad</h1>
-          <div class="meta">Última actualización: 26 de mayo de 2026 · Versión 1.1</div>
+          <div class="meta">Última actualización: 1 de junio de 2026 · Versión 1.2</div>
         </div>
 
         <!-- TL;DR ─────────────────────────────────────────────────── -->
@@ -381,18 +381,78 @@
 
           <h3>2.2 Exportaciones e importaciones</h3>
           <p>
-            Si decides exportar una colonia (para hacer un backup o pasarla
-            a otro móvil), Felinatic genera un fichero
-            <code>.felinatic</code> que contiene los datos de esa colonia.
-            <b>Este fichero puede cifrarse con una contraseña que tú eliges</b>,
-            usando cifrado AES estándar. Solo quien conozca la contraseña
-            puede descomprimirlo. El fichero queda en tu dispositivo o en
-            el destino que tú elijas (Google Drive, WhatsApp, correo,
-            tarjeta SD), pero Felinatic no participa en ese envío — lo
-            gestionas con las apps habituales de Android.
+            Si decides exportar una colonia (para hacer un backup, pasarla
+            a otro móvil, compartirla con una asociación o sincronizarla
+            con tu pareja, conviviente, familia o amistad), Felinatic
+            genera un fichero <code>.felinatic</code> que contiene los
+            datos de esa colonia. El picker te presenta cuatro casos de
+            uso, todos ellos cifrados con <b>AES-256</b>:
+          </p>
+          <ul>
+            <li><b>Backup personal.</b> Snapshot completo para guardar en
+              Drive, mail, USB o donde tú decidas. Cifrado por defecto;
+              puedes activar contraseña personal opcional.</li>
+            <li><b>Sincronizar con otro terminal.</b> Cambios recientes
+              (1 semana por defecto) para enviar al móvil vinculado
+              contigo. Cifrado automático con la clave del vínculo
+              (ver 2.3 más abajo) — la otra app lo abre sin pedir
+              contraseña.</li>
+            <li><b>Compartir colonia completa.</b> Snapshot total para
+              entregar puntualmente a una asociación o voluntariado.
+              Cifrado por defecto; puedes activar contraseña personal.</li>
+            <li><b>Traspasar un gato.</b> Historia de un animal concreto
+              para enviar a quien lo adopta o a un veterinario. Mismo
+              esquema de cifrado.</li>
+          </ul>
+          <p>
+            <b>El fichero queda en tu dispositivo o en el destino que tú
+            elijas</b> (Google Drive, WhatsApp, correo, tarjeta SD,
+            Bluetooth, cable USB…). Felinatic no participa en ese envío
+            — lo gestionas con las apps habituales de Android. Nuestro
+            servidor no ve, ni almacena, ni intermedia el archivo en
+            ningún momento.
           </p>
 
-          <h3>2.3 Widget de pantalla de inicio</h3>
+          <h3>2.3 Vinculación entre terminales (sincronización)</h3>
+          <p>
+            Felinatic permite vincular dos instalaciones de la app que
+            cuidan la misma colonia (típicamente pareja, conviviente,
+            familia o asociación) para intercambiar archivos cifrados
+            sin tener que teclear contraseñas en cada envío. La
+            vinculación funciona así:
+          </p>
+          <ul>
+            <li>Un terminal genera una <b>clave aleatoria AES-256</b>
+              y la pinta como código QR en la pantalla.</li>
+            <li>El otro terminal escanea ese QR con su cámara. A partir
+              de ese momento, las dos apps comparten la misma clave.</li>
+            <li><b>El QR debe escanearse en persona</b>, con las dos
+              pantallas físicamente cerca. La app advierte explícitamente
+              de no enviar el QR por mensajería para que la clave no
+              pueda interceptarse.</li>
+            <li>Los archivos <code>.felinatic</code> que se generen entre
+              los dos terminales vinculados se cifran automáticamente
+              con esa clave compartida. Nadie sin acceso a uno de los
+              dos móviles vinculados puede descifrarlos.</li>
+          </ul>
+          <p>
+            <b>La clave del vínculo nunca sale del dispositivo.</b> Se
+            almacena cifrada en
+            <code>EncryptedSharedPreferences</code> respaldado por el
+            <b>Android Keystore</b> del sistema operativo, que garantiza
+            que ni siquiera Felinatic puede leerla en claro fuera del
+            proceso autorizado por Android. No hay servidor intermediario,
+            no hay backup en la nube, no hay registro de quién está
+            vinculado con quién.
+          </p>
+          <p>
+            La transferencia del archivo entre los dos móviles vinculados
+            <b>sigue siendo manual</b>: tú decides el canal (WhatsApp,
+            mail, USB…) y la otra app lo importa cuando lo reciba. No
+            existe sincronización en segundo plano.
+          </p>
+
+          <h3>2.4 Widget de pantalla de inicio</h3>
           <p>
             Si añades el widget de calendario al launcher de tu móvil,
             éste lee los próximos eventos de la base de datos local para
@@ -500,7 +560,8 @@
           <div class="table-like">
             <div class="label">Cámara</div>
             <div class="value">Para escanear códigos de barras del envase
-              de pienso y para hacer fotos de un gato o de un comprobante
+              de pienso, escanear el código QR de vinculación con otro
+              terminal, y para hacer fotos de un gato o de un comprobante
               veterinario. Solo se activa cuando tocas el botón
               correspondiente.</div>
             <div class="label">Galería / fotos</div>
@@ -548,10 +609,11 @@
             <li><b>Supresión.</b> Puedes borrar un gato, una colonia
               entera o desinstalar la app. Desinstalar la app borra toda
               la base de datos local de Felinatic.</li>
-            <li><b>Portabilidad.</b> La función "Exportar colonia" te
-              devuelve un fichero <code>.felinatic</code> con todos tus
-              datos en formato JSON dentro de un ZIP — abrible y
-              auditable.</li>
+            <li><b>Portabilidad.</b> La función "Exportar datos" te
+              devuelve un fichero <code>.felinatic</code> con tus datos
+              en formato JSON dentro de un ZIP cifrado con AES-256 —
+              abrible y auditable con la contraseña o clave de
+              vinculación correspondiente.</li>
             <li><b>Oposición y limitación.</b> El acceso a internet es
               opt-in. Si lo desactivas en cualquier momento, Felinatic
               deja de hacer cualquier conexión externa.</li>
