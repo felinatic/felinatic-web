@@ -1,0 +1,13 @@
+# ── Redirects de Cloudflare Pages ────────────────────────────────
+#
+# Formato:  <ruta-origen>  <destino>  <código-status>
+#
+# Usamos 302 (Found / Temporary) en lugar de 301 (Moved Permanently)
+# para que navegadores y buscadores NO cacheen la regla. Si en el
+# futuro cambiamos de plataforma de donación (Ko-fi → BMC → Stripe
+# → asociación con Teaming…), basta con editar este fichero y la
+# app sigue funcionando sin republicar APK.
+
+# Donación voluntaria — la app referencia esta URL estable.
+# Hoy redirige a Ko-fi. Cambiará si migramos de plataforma.
+/cafe  https://ko-fi.com/felinatic  302
